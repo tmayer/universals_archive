@@ -109,10 +109,10 @@ else{
 	$sql .= "1 ORDER BY archive.number ASC";
 }
 
-$result = mysql_query($sql,$dbconn);
+$result = $dbconn->query($sql);
 
 if($result){
-	$totalNumber = mysql_num_rows($result);
+	$totalNumber = mysqli_num_rows($result);
 	if($totalNumber == 0){
 		$msg = "Your query matched no results!";
 		messageHeader($msg,"error","nav/search.php?PHPSESSID=$sid","");
@@ -132,7 +132,7 @@ if($result){
 			$num = 1;
 		}
 		$numInt = $num - 1;
-		$number =  mysql_result($result,$numInt,number);
+		$number =  mysqli_result($result,$numInt,"number");
 
 		
 htmlHeader("search",$num,"true",$totalNumber,$number);
@@ -168,7 +168,7 @@ htmlFooter();
 
 }
 } else {
-	$msg = "Connection error: <br>".mysql_error($dbconn);
+	$msg = "Connection error: <br>".mysqli_error($dbconn);
 	messageHeader($msg,"error","nav/search.php?PHPSESSID=$sid","");
 	//echo "<p>",mysql_error($dbconn), "</p>";
 }
@@ -182,6 +182,6 @@ else{
 }
 
 
-mysql_close($dbconn);
+mysqli_close($dbconn);
 
 ?>

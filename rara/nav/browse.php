@@ -3,7 +3,7 @@
 include("../inc/functions.php");
 global $dbconn;
 
-if(!($dbconn = connectToDB('Rara'))){
+if(!($dbconn = connectToDB('th_mayer_de'))){
 	exit('<p>Connection refused to database server.</p>');
 }
 
@@ -11,8 +11,8 @@ $num = getVariable('number');
 
 if($entry_id = getVariable('entry_id') AND !(getVariable('number'))){
 	$sql_id = "SELECT * FROM archive WHERE entry_id='$entry_id';";
-	$result_id = mysql_query($sql_id,$dbconn);
-	$num = mysql_result($result_id,0,number);
+	$result_id = $dbconn->query($sql_id);
+	$num = mysqli_result($result_id,0,"number");
 }
 
 if(getVariable('numIncr')){
@@ -21,7 +21,7 @@ if(getVariable('numIncr')){
 if(getVariable('numDecr')){
 	$num--;
 }
-$totalNumber = mysql_num_rows(mysql_query("SELECT * from archive", $dbconn));
+$totalNumber = mysqli_num_rows($dbconn->query("SELECT * from rara"));
 if($num > $totalNumber){
 	$num = $totalNumber;
 }
@@ -34,17 +34,17 @@ htmlHeader("browse",$num,"true",$totalNumber);
 //panel($num,$totalNumber);
 
 $sql = "SELECT *
-				FROM archive WHERE number=$num";
-$result = mysql_query($sql,$dbconn);
+				FROM rara WHERE number=$num";
+$result = $dbconn->query($sql);
 
 if($result){
 	displayResults($result);
 }
 else{
-	echo "<p",mysql_error($dbconn),"</p>";
+	echo "<p",mysqli_error($dbconn),"</p>";
 }
 
-mysql_close($dbconn);
+mysqli_close($dbconn);
 
 htmlFooter();
 

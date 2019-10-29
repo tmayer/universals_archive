@@ -7,7 +7,7 @@ echo <<<CONTENTTABLE
 </p>
 
 <p class="introText">
-To get started on our guided tour, the following universal, one of Moravcsik?s 
+To get started on our guided tour, the following universal, one of Moravcsik's 
 Many Laws, serves to illustrate what kind of information is maximally provided 
 in an entry in the archive.
 </p>

@@ -21,7 +21,7 @@ or at any rate counterexamples to those of the latter!
 <pre>
 FRANS PLANK & ELENA FILIMONOVA (& THOMAS MAYER)
 Fachbereich Sprachwissenschaft
-Universität Konstanz
+UniversitÃ¤t Konstanz
 78457 Konstanz
 Germany
 {frans.plank, thomas mayer}@uni-konstanz.de, ef263@cam.ac.uk 
@@ -36,7 +36,7 @@ Germany
 In the interest of documenting not only the constraints on, but also the possibilities of 
 crosslinguistic diversity, there are also plans to have a separarte department of 
 the archive devoted to the opposite of universals ? namely, rara, rarissima, and 
-nonesuches.  See now DAS GRAMMATISCHE RARITÄTENKABINETT at ???.
+nonesuches.  See now DAS GRAMMATISCHE RARITÃ„TENKABINETT at ???.
 <a href="#anchor4" title="back">
 (back)</a><br>
 

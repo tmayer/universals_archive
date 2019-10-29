@@ -2,6 +2,7 @@
 
 include("../inc/functions.php");
 global $dbconn;
+global $num;
 
 if(!($dbconn = connectToDB())){
 	exit('<p>Connection refused to database server.</p>');
@@ -14,7 +15,7 @@ if(getVariable('numIncr')){
 if(getVariable('numDecr')){
 	$num--;
 }
-$totalNumber = mysql_num_rows(mysql_query("SELECT * from archive", $dbconn));
+$totalNumber = mysqli_num_rows($dbconn->query("SELECT * from archive"));
 if($num > $totalNumber){
 	$num = $totalNumber;
 }
@@ -29,16 +30,16 @@ htmlHeader("browse",$num,"true",$totalNumber);
 $sql = "SELECT number,original,standardized,formula,keywords,domain,type,status,
 				quality,basis,source,counterexamples,comments
 				FROM archive WHERE number=$num";
-$result = mysql_query($sql,$dbconn);
+$result = $dbconn->query($sql);
 
 if($result){
 	displayResults($result);
 }
 else{
-	echo "<p",mysql_error($dbconn),"</p>";
+	echo "<p",mysqli_error($dbconn),"</p>";
 }
 
-mysql_close($dbconn);
+mysqli_close($dbconn);
 
 htmlFooter();
 

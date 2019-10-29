@@ -46,12 +46,12 @@ Description
 
 <p class="introText">
 Within the typology programme of the Deutsche Forschungsgemeinschaft, 1996-2001, 
-the remit of the project "Sprachbaupl‰ne" was to collect and document linguistic 
+the remit of the project "Sprachbaupl√§ne" was to collect and document linguistic 
 universals that have been suggested in the relevant literature, in particular 
 those of an implicational kind ("If a language has property [unit, category, rule, 
 construction, pattern, ...] X, then it will also have Y"). The main result of 
 this project is The Universals Archive, since 2002 maintained with the support of 
-the Fachbereich Sprachwissenschaft of the Universit‰t Konstanz.
+the Fachbereich Sprachwissenschaft of the Universit√§t Konstanz.
 </p>
 
 <p class="introText">

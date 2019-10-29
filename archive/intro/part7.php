@@ -10,7 +10,7 @@ References
 BURQUEST, DONALD A. et al. (1982). Language universals. Research Papers of the 
 	Texas SIL 11.
 
-DÉCSY, GYULA (1987). A Select Catalog of Language Universals. Bloomington: 
+DÃ‰CSY, GYULA (1987). A Select Catalog of Language Universals. Bloomington: 
 	Eurolingua.
 
 FILIMONOVA, ELENA (1999a). Toward universals of pronominal plural inflection, or 
@@ -18,7 +18,7 @@ FILIMONOVA, ELENA (1999a). Toward universals of pronominal plural inflection, or
 	Linguistics. Bern: Lang.
 
 FILIMONOVA, ELENA (1999b). The noun-phrase hierarchy and relational marking: The 
-	counter-evidence. Unpublished, Universität Konstanz.  [Now in Linguistic 
+	counter-evidence. Unpublished, UniversitÃ¤t Konstanz.  [Now in Linguistic 
 	Typology 9 (2005) 77-113.]
 
 GREENBERG, JOSEPH H. (1963). Some universals of grammar, with particular reference 

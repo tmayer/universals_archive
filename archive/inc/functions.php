@@ -7,112 +7,37 @@
  */
  
 session_start(); // PHP-Session 
-include("../../../Sites_Additional/constants.php"); // include secret constants
+include("constants.php"); // include secret constants
 
 /*
  * ##### Function 'connectToDB'#####
  * For Rara use connectToDB('Rara')
  */
- function connectToDB($db = 'Universals')
+ function connectToDB($db = 'th_mayer_de')
  {
-	 $dbconn = @mysql_connect(_HOST_, _USER_, _PASSWORD_);
-	 if(!@mysql_select_db($db)){
+	 $dbconn = @mysqli_connect(_HOST_, _USER_, _PASSWORD_, $db);
+	 if(!$dbconn){
 		 exit("<p>Connection refused to database <i>$db</i></p>");
 	 }
 	 return $dbconn;
  }
 /* +++++ END Function 'connectToDB'+++++ */
 
-/*
- * ##### Function 'displayEditResults' #####
- * For Rara use different Function
- */
- function displayEditResults($result, $number = 1, $numInt = 0)
- {
-	 
-	$field_number = mysql_result($result,$numInt,number);
-	$field_original = mysql_result($result,$numInt,original);
-	$field_standardized = mysql_result($result,$numInt,standardized);
-	$field_formula = mysql_result($result,$numInt,formula);
-	$field_keywords = mysql_result($result,$numInt,keywords);
-	$field_domain = mysql_result($result,$numInt,domain);
-	$field_type = mysql_result($result,$numInt,type);
-	$field_status = mysql_result($result,$numInt,status);
-	$field_quality = mysql_result($result,$numInt,quality);
-	$field_basis = mysql_result($result,$numInt,basis);
-	$field_source = mysql_result($result,$numInt,source);
-	$field_id = mysql_result($result,$numInt,entry_id);
 
-	 echo <<<BLANCOHEADER
-<!-- Display Results Begin -->
-<table class="blanco" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td class="blanco_1"><img src="../img/blocks/blocks_bl_01.jpg" width="23" height="32" /></td>
-		<td class="blanco_2">&nbsp;</td>
-		<td class="blanco_3"><img src="../img/blocks/blocks_bl_03.jpg" width="25" height="32" /></td>
-	</tr>
-</table>
-<table class="blanco" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td class="blanco_4"></td>
-		<td>
-BLANCOHEADER;
-
-		echo <<<TABLEEND
-<form action="$PHP_SELF" method="POST">
-<table width="100%">
-	<tr><td>
-<input type="submit" name="edited" value="Save changes">
-<input type="hidden" name="number" value="$number">
-<input type="hidden" name="entry_id" value="$field_id">
-<span style="text-decoration:blink; color:red; ">!</span></td>
-<td align="right"><input type="submit" name="delete" value="Delete this entry!"></tr>
-</table>
-<br>
-<table class="displayTable">
-	<tr><td width="175" class="odd">&nbsp;<b>Number</b>&nbsp;</td>
-		<td class="odd">$field_number</td><tr>
-	<tr><td class="even">&nbsp;<b>Original</b>&nbsp;</td>
-		<td class="even"><textarea name="original" cols="90" rows="3">$field_original</textarea></td><tr>
-	<tr><td class="odd">&nbsp;<b>Standardized</b>&nbsp;</td>
-		<td class="odd"><textarea name="standardized" cols="90" rows="3">$field_standardized</textarea></td><tr>
-	<tr><td class="even">&nbsp;<b>Formula</b>&nbsp;</td>
-		<td class="even"><textarea name="formula" cols="90" rows="1">$field_formula</textarea></td><tr>
-	<tr><td class="odd">&nbsp;<b>Keywords</b>&nbsp;</td>
-		<td class="odd"><textarea name="keywords" cols="90" rows="1">$field_keywords</textarea></td><tr>
-	<tr><td class="even">&nbsp;<b>Domain</b>&nbsp;</td>
-		<td class="even"><textarea name="domain" cols="90" rows="1">$field_domain</textarea></td><tr>
-	<tr><td class="odd">&nbsp;<b>Type</b>&nbsp;</td>
-		<td class="odd"><textarea name="type" cols="90" rows="1">$field_type</textarea></td><tr>
-	<tr><td class="even">&nbsp;<b>Status</b>&nbsp;</td>
-		<td class="even"><textarea name="status" cols="90" rows="1">$field_status</textarea></td><tr>
-	<tr><td class="odd">&nbsp;<b>Quality</b>&nbsp;</td>
-		<td class="odd"><textarea name="quality" cols="90" rows="1">$field_quality</textarea></td><tr>
-	<tr><td class="even">&nbsp;<b>Basis</b>&nbsp;</td>
-		<td class="even"><textarea name="basis" cols="90" rows="1">$field_basis</textarea></td><tr>
-	<tr><td class="odd">&nbsp;<b>Source</b>&nbsp;</td>
-		<td class="odd"><textarea name="source" cols="90" rows="1">$field_source</textarea></td><tr>
-	 
-TABLEEND;
-	displayPosts($field_number,'counter','true');
-	displayPosts($field_number,'comment','true');
-	echo "</td></tr></table></form><br>";
-	
-	echo <<<BLANCOFOOTER
-		</td>
-		<td class="blanco_6"></td>
-	</tr>
-	<tr>
-		<td class="blanco_7"></td>
-		<td class="blanco_8">&nbsp;</td>
-		<td class="blanco_9"></td>
-	</tr>
-</table>
-BLANCOFOOTER;
-		
-	echo "\n<!-- Display Results End -->\n";
- }
 /* +++++ END Function 'displayEditResults' +++++ */
+
+function mysqli_result($res,$row=0,$col=0){ 
+    $numrows = mysqli_num_rows($res); 
+    if ($numrows && $row <= ($numrows-1) && $row >=0){
+        mysqli_data_seek($res,$row);
+        $resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+        if (isset($resrow[$col])){
+            return $resrow[$col];
+        }
+    }
+    return false;
+}
+
 
 /* 
  * ##### Function 'displayResults' #####
@@ -121,17 +46,17 @@ BLANCOFOOTER;
  function displayResults($result, $numInt = 0)
  {
 	 
-	$field_number = mysql_result($result,$numInt,number);
-	$field_original = mysql_result($result,$numInt,original);
-	$field_standardized = mysql_result($result,$numInt,standardized);
-	$field_formula = mysql_result($result,$numInt,formula);
-	$field_keywords = mysql_result($result,$numInt,keywords);
-	$field_domain = mysql_result($result,$numInt,domain);
-	$field_type = mysql_result($result,$numInt,type);
-	$field_status = mysql_result($result,$numInt,status);
-	$field_quality = mysql_result($result,$numInt,quality);
-	$field_basis = mysql_result($result,$numInt,basis);
-	$field_source = mysql_result($result,$numInt,source);
+	$field_number = mysqli_result($result,$numInt,"number");
+	$field_original = mysqli_result($result,$numInt,"original");
+	$field_standardized = mysqli_result($result,$numInt,"standardized");
+	$field_formula = mysqli_result($result,$numInt,"formula");
+	$field_keywords = mysqli_result($result,$numInt,"keywords");
+	$field_domain = mysqli_result($result,$numInt,"domain");
+	$field_type = mysqli_result($result,$numInt,"type");
+	$field_status = mysqli_result($result,$numInt,"status");
+	$field_quality = mysqli_result($result,$numInt,"quality");
+	$field_basis = mysqli_result($result,$numInt,"basis");
+	$field_source = mysqli_result($result,$numInt,"source");
 	
 	echo <<<BLANCOHEADER
 <!-- Display Results Begin -->
@@ -205,7 +130,7 @@ BLANCOFOOTER;
 		 $nameField = "comment";
 		 $field_id = "comment_id";
 	 }
-	 $numOfPosts = mysql_num_rows($resultPosts); // number of posts to be displayed
+	 $numOfPosts = mysqli_num_rows($resultPosts); // number of posts to be displayed
 	 
 	 echo "	<tr><td class=\"even\">&nbsp;<b>$title</b>&nbsp;";
 	 if($_SESSION['userLoggedOn']){
@@ -223,18 +148,18 @@ BLANCOFOOTER;
 	 for($i = 0; $i < $numOfPosts; $i++){
 		 $editMode = "";
 		 $no = $i+1;
-		 $text = mysql_result($resultPosts,$i,text);
-		 $user = mysql_result($resultPosts,$i,user);
-		 $id = mysql_result($resultPosts,$i,$field_id);
-		 $editable = mysql_result($resultPosts,$i,editable);
-		 $fullDate = explode(" ",mysql_result($resultPosts,$i,date_post));
+		 $text = mysqli_result($resultPosts,$i,"text");
+		 $user = mysqli_result($resultPosts,$i,"user");
+		 $id = mysqli_result($resultPosts,$i,$field_id);
+		 $editable = mysqli_result($resultPosts,$i,"editable");
+		 $fullDate = explode(" ",mysqli_result($resultPosts,$i,"date_post"));
 		 $date = $fullDate[0];
 		 $time = $fullDate[1];
 		 $timeExploded = explode(":",$time);
 		 $dateExploded = explode("-",$date);
 		 $resultUser = get_user($user);
-		 $mail = mysql_result($resultUser,0,email);
-		 $name = mysql_result($resultUser,0,name);
+		 $mail = mysqli_result($resultUser,0,"email");
+		 $name = mysqli_result($resultUser,0,"name");
 		 if($_SESSION['userLoggedOn']){
 			 $userSession = $_SESSION['userLoggedOn'];
 			 if(($userSession == $user && $editable == 'true') ||
@@ -304,8 +229,8 @@ function get_id($number)
 {
 	$dbconn = connectToDB();
 	$sqlID = "SELECT * FROM archive WHERE number=$number;";
-	$resultID = mysql_query($sqlID,$dbconn);
-	return mysql_result($resultID,0,entry_id);
+	$resultID = $dbconn->query($sqlID);
+	return mysqli_result($resultID,0,"entry_id");
 }
 /* +++++ END Function 'get_id' +++++ */
 
@@ -316,7 +241,7 @@ function get_id($number)
  {
 	 $dbconn = connectToDB();
 	 $sql_posts = "SELECT * FROM $kind WHERE entry=$num ORDER BY date_post ASC";
-	 $result_posts = mysql_query($sql_posts,$dbconn);
+	 $result_posts = $dbconn->query($sql_posts);
 	 return $result_posts;
  }
 /* +++++ END Function 'get_posts' +++++ */
@@ -328,7 +253,7 @@ function get_id($number)
  {
 	 $dbconn = connectToDB();
 	 $sql_user = "SELECT * FROM user WHERE nickname='$user'";
-	 $result_user = mysql_query($sql_user,$dbconn);
+	 $result_user = $dbconn->query($sql_user);
 	 return $result_user;
  }
 /* +++++ END Function 'get_user' +++++ */

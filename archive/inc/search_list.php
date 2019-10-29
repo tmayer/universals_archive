@@ -109,10 +109,10 @@ else{
 	$sql .= "1 ORDER BY archive.number ASC";
 }
 
-$result = mysql_query($sql,$dbconn);
+$result = $dbconn->query($sql);
 
 if($result){
-	$totalNumber = mysql_num_rows($result);
+	$totalNumber = mysqli_num_rows($result);
 	if($totalNumber == 0){
 		$msg = "Your query matched no results!";
 		messageHeader($msg,"error","nav/search.php?PHPSESSID=$sid","");
@@ -142,10 +142,10 @@ for($i=0; $i<$totalNumber; $i++){
 	echo "<table class=\"displayTable\" style=\"border:thin solid #A0A0A0;\">";
 	echo "<tr style=\"background-color:#A0A0A0; color:#FFFFFF;\">";
 	echo "<td width=\"175\">&nbsp;<b>Result No. $nr</b></td><td></td></tr>";
-	$field_number = mysql_result($result,$i,number);
+	$field_number = mysqli_result($result,$i,"number");
 		echo "<tr><td width=\"175\" class=\"odd\">&nbsp;<b>Number</b>&nbsp;</td>";
 		echo "<td class=\"odd\">$field_number</td></tr>";
-	if(sizeof($listitem) > 0){
+	if(count($listitem) > 0){
 	$counter = 1;
 		foreach($listitem as $key){
 			$counter++;
@@ -160,7 +160,7 @@ for($i=0; $i<$totalNumber; $i++){
 				displayPosts($field_number,'counter');
 			}
 			else{
-				$field = mysql_result($result,$i,$key);
+				$field = mysqli_result($result,$i,$key);
 				switch ($key) {
 					case "original":
 						$title = "Original";
@@ -221,7 +221,7 @@ htmlFooter();
 
 }
 } else {
-	$msg = "Connection error: <br>".mysql_error($dbconn);
+	$msg = "Connection error: <br>".mysqli_error($dbconn);
 	messageHeader($msg,"error","nav/search.php?PHPSESSID=$sid","");
 	//echo "<p>",mysql_error($dbconn), "</p>";
 }
@@ -235,6 +235,6 @@ else{
 }
 
 
-mysql_close($dbconn);
+mysqli_close($dbconn);
 
 ?>

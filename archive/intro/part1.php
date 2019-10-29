@@ -54,8 +54,8 @@ Occasionally, more or less narrowly circumscribed selections of universals
 have indeed been catalogued, notably in BURQUEST ET AL. (1982), KIRBY (1995), 
 and PLANK (1998)<sup><a href="#note1" name="anchor1" title="Footnote #1">1</a></sup>.   Within the national typology programme of the Deutsche 
 Forschungsgemeinschaft, initiated in 1996, a more comprehensive effort in this 
-direction has been made by the project "Sprachbaupläne", based at the Fachbereich 
-Sprachwissenschaft of the Universität Konstanz<sup><a href="#note2" name="anchor2"
+direction has been made by the project "SprachbauplÃ¤ne", based at the Fachbereich 
+Sprachwissenschaft of the UniversitÃ¤t Konstanz<sup><a href="#note2" name="anchor2"
 title="Footnote #2">2</a></sup>.   The remit of this project 
 was to document existing universals, no matter how hypothetical their validity, 
 and not to suggest new ones:  a putative universal needed to be in print, or at 
@@ -77,7 +77,7 @@ http://ling.uni-konstanz.de/pages/proj/sprachbau.htm
 <hr width="300" align="left">
 <p class="footnotes">
 <a name="note1">1.</a> 
-We hesitate also to mention DÉCSY (1987). <a href="#anchor1" title="back">
+We hesitate also to mention DÃ‰CSY (1987). <a href="#anchor1" title="back">
 (back)</a><br>
 
 <a name="note2">2.</a> 

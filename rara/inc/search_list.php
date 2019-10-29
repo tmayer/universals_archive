@@ -7,7 +7,7 @@ global $dbconn, $sid, $original, $standardized, $formula, $keywords,
 
 $sid = session_id();
 
-if(!($dbconn = connectToDB('Rara'))){
+if(!($dbconn = connectToDB('th_mayer_de'))){
 	exit('<p class="error">Connection refused to database server.</p>');
 }
 
@@ -27,67 +27,67 @@ $comment = $_POST['comment'];
 $boolean = $_POST['boolean'];
 
 if($boolean == 'or'){	
-$sql = "SELECT * FROM archive WHERE MATCH (phenomenon) AGAINST ('$phenomenon' IN BOOLEAN MODE)
+$sql = "SELECT * FROM rara WHERE MATCH (phenomenon) AGAINST ('$phenomenon' IN BOOLEAN MODE)
 	UNION
-	SELECT * FROM archive WHERE MATCH (found) AGAINST ('$found' IN BOOLEAN MODE)
+	SELECT * FROM rara WHERE MATCH (found) AGAINST ('$found' IN BOOLEAN MODE)
 	UNION
-	SELECT * FROM archive WHERE MATCH (domain) AGAINST ('$domain' IN BOOLEAN MODE)
+	SELECT * FROM rara WHERE MATCH (domain) AGAINST ('$domain' IN BOOLEAN MODE)
 	UNION
-	SELECT * FROM archive WHERE MATCH (subdomain) AGAINST ('$subdomain' IN BOOLEAN MODE) 
+	SELECT * FROM rara WHERE MATCH (subdomain) AGAINST ('$subdomain' IN BOOLEAN MODE) 
 	UNION
-	SELECT * FROM archive WHERE MATCH (keywords) AGAINST ('$keywords' IN BOOLEAN MODE)
+	SELECT * FROM rara WHERE MATCH (keywords) AGAINST ('$keywords' IN BOOLEAN MODE)
 	UNION
-	SELECT * FROM archive WHERE MATCH (type) AGAINST ('$type' IN BOOLEAN MODE)
+	SELECT * FROM rara WHERE MATCH (type) AGAINST ('$type' IN BOOLEAN MODE)
 	UNION
-	SELECT * FROM archive WHERE MATCH (violates) AGAINST ('$violates' IN BOOLEAN MODE)
+	SELECT * FROM rara WHERE MATCH (violates) AGAINST ('$violates' IN BOOLEAN MODE)
 	UNION
-	SELECT a.* FROM archive AS a, comment AS c WHERE a.number = c.entry AND MATCH (c.text) AGAINST ('$comment' IN BOOLEAN MODE)
+	SELECT a.* FROM rara AS a, comment AS c WHERE a.number = c.entry AND MATCH (c.text) AGAINST ('$comment' IN BOOLEAN MODE)
 	UNION 
-	SELECT * FROM archive WHERE MATCH (source) AGAINST ('$source' IN BOOLEAN MODE) ORDER BY number ASC";
+	SELECT * FROM rara WHERE MATCH (source) AGAINST ('$source' IN BOOLEAN MODE) ORDER BY number ASC";
 }
 else{
 	$commentExists = "";
 	if($comment != ""){
 		$commentExists = ",comment";
 	}
-	$sql = "SELECT archive.* FROM archive$commentExists WHERE ";
+	$sql = "SELECT rara.* FROM rara$commentExists WHERE ";
 	
 	if($phenomenon != ""){
-		$sql .= "MATCH (archive.phenomenon) AGAINST ('$phenomenon' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.phenomenon) AGAINST ('$phenomenon' IN BOOLEAN MODE) AND ";
 	}
 	if($found != ""){
-		$sql .= "MATCH (archive.found) AGAINST ('$found' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.found) AGAINST ('$found' IN BOOLEAN MODE) AND ";
 	}
 	if($domain != ""){
-		$sql .= "MATCH (archive.domain) AGAINST ('$domain' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.domain) AGAINST ('$domain' IN BOOLEAN MODE) AND ";
 	}
 	
 	if($subdomain != ""){
-		$sql .= "MATCH (archive.subdomain) AGAINST ('$subdomain' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.subdomain) AGAINST ('$subdomain' IN BOOLEAN MODE) AND ";
 	}
 	
 	if($keywords != ""){
-		$sql .= "MATCH (archive.keywords) AGAINST ('$keywords' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.keywords) AGAINST ('$keywords' IN BOOLEAN MODE) AND ";
 	}
 	if($type != ""){
-		$sql .= "MATCH (archive.type) AGAINST ('$type' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.type) AGAINST ('$type' IN BOOLEAN MODE) AND ";
 	}
 	if($violates != ""){
-		$sql .= "MATCH (archive.violates) AGAINST ('$violates' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.violates) AGAINST ('$violates' IN BOOLEAN MODE) AND ";
 	}
 	if($source != ""){
-		$sql .= "MATCH (archive.source) AGAINST ('$source' IN BOOLEAN MODE) AND ";
+		$sql .= "MATCH (rara.source) AGAINST ('$source' IN BOOLEAN MODE) AND ";
 	}
 	if($comment != ""){
-		$sql .= "archive.number=comment.entry AND MATCH (comment.text) AGAINST ('$comment' IN BOOLEAN MODE) AND ";
+		$sql .= "rara.number=rara_comment.entry AND MATCH (rara_comment.text) AGAINST ('$comment' IN BOOLEAN MODE) AND ";
 	}
-	$sql .= "1 ORDER BY archive.number ASC";
+	$sql .= "1 ORDER BY rara.number ASC";
 }
 
-$result = mysql_query($sql,$dbconn);
+$result = $dbconn->query($sql);
 
 if($result){
-	$totalNumber = mysql_num_rows($result);
+	$totalNumber = mysqli_num_rows($result);
 	if($totalNumber == 0){
 		$msg = "Your query matched no results!";
 		messageHeader($msg,"error","nav/search.php?PHPSESSID=$sid","");
@@ -118,7 +118,7 @@ for($i=0; $i<$totalNumber; $i++){
 	echo "<table class=\"displayTable\" style=\"border:thin solid #A0A0A0;\">";
 	echo "<tr style=\"background-color:#A0A0A0; color:#FFFFFF;\">";
 	echo "<td width=\"175\">&nbsp;<b>Result No. $nr</b></td><td></td></tr>";
-	$field_number = mysql_result($result,$i,number);
+	$field_number = mysqli_result($result,$i,"number");
 		echo "<tr><td width=\"175\" class=\"odd\">&nbsp;<b>Number</b>&nbsp;</td>";
 		echo "<td class=\"odd\">$field_number</td></tr>";
 	if(sizeof($listitem) > 0){
@@ -133,7 +133,7 @@ for($i=0; $i<$totalNumber; $i++){
 				displayPosts($field_number,'comments');
 			}
 			else{
-				$field = mysql_result($result,$i,$key);
+				$field = mysqli_result($result,$i,$key);
 				switch ($key) {
 					case "phenomenon":
 						$title = "Phenomenon";
@@ -188,7 +188,7 @@ htmlFooter();
 
 }
 } else {
-	$msg = "Connection error: <br>".mysql_error($dbconn);
+	$msg = "Connection error: <br>".mysqli_error($dbconn);
 	messageHeader($msg,"error","nav/search.php?PHPSESSID=$sid","");
 	//echo "<p>",mysql_error($dbconn), "</p>";
 }
@@ -202,6 +202,6 @@ else{
 }
 
 
-mysql_close($dbconn);
+mysqli_close($dbconn);
 
 ?>
